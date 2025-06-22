@@ -1,4 +1,4 @@
-package domain;
+package com.prp.tickets.domain.enums;
 
 public enum TicketValidationStatusEnum {
   VALID, // Ticket is valid for entry

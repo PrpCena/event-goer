@@ -1,4 +1,4 @@
-package domain.entities;
+package com.prp.tickets.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

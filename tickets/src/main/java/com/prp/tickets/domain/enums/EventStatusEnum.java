@@ -1,4 +1,4 @@
-package domain;
+package com.prp.tickets.domain.enums;
 
 public enum EventStatusEnum {
   DRAFT, // Initial state when creating an event

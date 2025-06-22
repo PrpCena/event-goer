@@ -1,41 +1,46 @@
-package domain.entities;
+package com.prp.tickets.domain.entities;
 
-import domain.TicketValidationMethod;
-import domain.TicketValidationStatusEnum;
+
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ticket_validations")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class TicketValidation {
+@Table(name = "ticket_types")
+public class TicketType {
   @Id
   @Column(name = "id", nullable = false, updatable = false)
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
   
-  @Column(name = "status", nullable = false)
-  @Enumerated(EnumType.STRING)
-  private TicketValidationStatusEnum status;
+  @Column(name = "name", nullable = false)
+  private String name;
   
-  @Column(name = "validation_method", nullable = false)
-  @Enumerated(EnumType.STRING)
-  private TicketValidationMethod validationMethod;
+  @Column(name = "price", nullable = false)
+  private Double price;
+  
+  @Column(name = "total_available")
+  private Integer totalAvailable;
   
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "ticket_id")
-  private Ticket ticket;
+  @JoinColumn(name = "event_id")
+  private Event event;
   
+  @OneToMany(mappedBy = "ticketType", cascade = CascadeType.ALL)
+  private List<Ticket> tickets = new ArrayList<>();
+  // TODO: Tickets
   @CreatedDate
   @Column(name = "created_at", updatable = false, nullable = false)
   private LocalDateTime createdAt;
@@ -47,14 +52,14 @@ public class TicketValidation {
   public boolean equals(Object o) {
 	if (o == null || getClass() != o.getClass())
 	  return false;
-	TicketValidation that = (TicketValidation) o;
-	return Objects.equals(
-	  id, that.id) && status == that.status && validationMethod == that.validationMethod && Objects.equals(
+	TicketType that = (TicketType) o;
+	return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(
+	  price, that.price) && Objects.equals(totalAvailable, that.totalAvailable) && Objects.equals(
 	  createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt);
   }
   
   @Override
   public int hashCode() {
-	return Objects.hash(id, status, validationMethod, createdAt, updatedAt);
+	return Objects.hash(id, name, price, totalAvailable, createdAt, updatedAt);
   }
 }

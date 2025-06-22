@@ -1,6 +1,6 @@
-package domain.entities;
+package com.prp.tickets.domain.entities;
 
-import domain.EventStatusEnum;
+import com.prp.tickets.domain.enums.EventStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

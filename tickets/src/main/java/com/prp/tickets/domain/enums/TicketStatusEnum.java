@@ -1,4 +1,4 @@
-package domain;
+package com.prp.tickets.domain.enums;
 
 public enum TicketStatusEnum {
   PURCHASED, // Default state when ticket is bought
