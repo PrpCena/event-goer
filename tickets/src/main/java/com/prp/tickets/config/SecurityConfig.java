@@ -22,7 +22,7 @@ public class SecurityConfig {
 							   // All requests must be authenticated
 							   authorize
 								 .anyRequest()
-								 .authenticated())
+								 .permitAll()) // change this to authenticated
 	  .csrf(csrf -> csrf.disable())
 	  .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	  .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
