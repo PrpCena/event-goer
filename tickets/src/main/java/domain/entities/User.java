@@ -1,15 +1,14 @@
 package domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User{
+public class User {
   
   @Id
   @Column(name = "id", updatable = false, nullable = false)
@@ -30,10 +29,17 @@ public class User{
   
   @Column(name = "email", nullable = false)
   private String email;
-  // Relationships to be implemented later
-  // TODO: Organized events
-  // TODO: Attending events
-  // TODO: Staffing events
+  
+  @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL)
+  private List<Event> organizedEvents = new ArrayList<>();
+  
+  @ManyToMany
+  @JoinTable(name = "user_attending_events", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
+  private List<Event> attendingEvents = new ArrayList<>();
+  
+  @ManyToMany
+  @JoinTable(name = "user_staffing_events", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "event_id"))
+  private List<Event> staffingEvents = new ArrayList<>();
   
   @CreatedDate
   @Column(name = "created_at", updatable = false, nullable = false)
