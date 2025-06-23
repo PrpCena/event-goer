@@ -4,10 +4,12 @@ package com.prp.tickets.controller;
 import com.prp.tickets.domain.CreateEventRequest;
 import com.prp.tickets.domain.dto.CreateEventRequestDto;
 import com.prp.tickets.domain.dto.CreateEventResponseDto;
+import com.prp.tickets.domain.dto.GetEventDetailsResponseDto;
 import com.prp.tickets.domain.dto.ListEventResponseDto;
 import com.prp.tickets.domain.entities.Event;
 import com.prp.tickets.mappers.EventMapper;
 import com.prp.tickets.services.EventService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,6 +46,20 @@ public class EventController {
 	UUID userId = parseUserId(jwt);
 	Page<Event> events = eventService.listEventsForOrganizer(userId, pageable);
 	return ResponseEntity.ok(events.map(eventMapper::toListEventResponseDto));
+  }
+  
+  @GetMapping(path = "/{eventId}")
+  public ResponseEntity<GetEventDetailsResponseDto> getEventDetails(
+	@PathVariable UUID eventId,
+	@AuthenticationPrincipal Jwt jwt) {
+	UUID userId = parseUserId(jwt);
+	return eventService
+			 .getEventForOrganizer(userId, eventId)
+			 .map(eventMapper::toGetEventDetailsResponseDto)
+			 .map(ResponseEntity::ok)
+			 .orElse(ResponseEntity
+					   .notFound()
+					   .build());
   }
   
   private UUID parseUserId(Jwt jwt) {
