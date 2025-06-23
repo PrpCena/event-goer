@@ -160,4 +160,9 @@ public class EventServiceImpl
 	return eventRepository.searchEvents(query, pageable);
   }
   
+  @Override
+  public Optional<Event> getPublicEvent(UUID eventId) {
+	return eventRepository.findByIdAndStatus(eventId,  EventStatusEnum.PUBLISHED);
+  }
+  
 }

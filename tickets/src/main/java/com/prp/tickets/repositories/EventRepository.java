@@ -21,4 +21,6 @@ public interface EventRepository
   
   @Query(value = "SELECT * FROM events WHERE " + "status = 'PUBLISHED' AND " + "to_tsvector('english', COALESCE(name, '') || ' ' || COALESCE(venue, '')) " + "@@ plainto_tsquery('english', :searchTerm)", countQuery = "SELECT count(*) FROM events WHERE " + "status = 'PUBLISHED' AND " + "to_tsvector('english', COALESCE(name, '') || ' ' || COALESCE(venue, '')) " + "@@ plainto_tsquery('english', :searchTerm)", nativeQuery = true)
   Page<Event> searchEvents(@Param("searchTerm") String searchTerm, Pageable pageable);
+  
+  Optional<Event> findByIdAndStatus(UUID eventId,  EventStatusEnum status);
 }
