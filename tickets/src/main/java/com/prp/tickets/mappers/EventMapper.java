@@ -2,10 +2,9 @@ package com.prp.tickets.mappers;
 
 import com.prp.tickets.domain.CreateEventRequest;
 import com.prp.tickets.domain.CreateTicketTypeRequest;
-import com.prp.tickets.domain.dto.CreateEventRequestDto;
-import com.prp.tickets.domain.dto.CreateEventResponseDto;
-import com.prp.tickets.domain.dto.CreateTicketTypeRequestDto;
+import com.prp.tickets.domain.dto.*;
 import com.prp.tickets.domain.entities.Event;
+import com.prp.tickets.domain.entities.TicketType;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -16,4 +15,8 @@ public interface EventMapper {
   CreateEventRequest fromDto(CreateEventRequestDto dto);
   
   CreateEventResponseDto toDto(Event event);
+  
+  ListEventTicketTypeResponseDto toDto(TicketType ticketType);
+  
+  ListEventResponseDto toListEventResponseDto(Event event);
 }
