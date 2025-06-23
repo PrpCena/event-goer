@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.prp.tickets.util.JwtUtil.parseUserId;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/events")
@@ -60,10 +62,7 @@ public class EventController {
 					   .build());
   }
   
-  private UUID parseUserId(Jwt jwt) {
-	return UUID.fromString(jwt.getSubject());
-  }
-  
+
   @PutMapping(path = "/{eventId}")
   public ResponseEntity<UpdateEventResponseDto> updateEvent(
 	@RequestBody @Valid UpdateEventRequestDto updateEventRequestDto,

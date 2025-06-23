@@ -98,4 +98,21 @@ public class GlobalExceptionHandler {
 	return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
   }
   
+  @ExceptionHandler(QrCodeNotFoundException.class)
+  public ResponseEntity<ErrorDto> handleQrCodeNotFoundException(QrCodeNotFoundException ex) {
+	log.error("Caught QrCodeNotFoundException", ex);
+	ErrorDto errorDto = new ErrorDto();
+	errorDto.setError("Unable to generate qrcode");
+	return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  
+  @ExceptionHandler(TicketSoldOutException.class)
+  public ResponseEntity<ErrorDto> handleTicketSoldOutException(TicketSoldOutException ex) {
+	log.error("Caught TicketSoldOutException", ex);
+	ErrorDto errorDto = new ErrorDto();
+	errorDto.setError("Unable to generate qrcode");
+	return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+  
+  
 }
