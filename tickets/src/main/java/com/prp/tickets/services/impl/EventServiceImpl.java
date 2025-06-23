@@ -142,4 +142,16 @@ public class EventServiceImpl
 	
   }
   
+  @Override
+  @Transactional
+  public void deleteEventForOrganizer(UUID organizerId, UUID eventId) {
+	 getEventForOrganizer(organizerId, eventId).ifPresent(eventRepository::delete);
+	 
+  }
+  
+  @Override
+  public Page<Event> listPublicEvents(Pageable pageable) {
+	return null;
+  }
+  
 }
