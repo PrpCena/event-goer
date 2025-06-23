@@ -2,10 +2,8 @@ package com.prp.tickets.controller;
 
 
 import com.prp.tickets.domain.CreateEventRequest;
-import com.prp.tickets.domain.dto.CreateEventRequestDto;
-import com.prp.tickets.domain.dto.CreateEventResponseDto;
-import com.prp.tickets.domain.dto.GetEventDetailsResponseDto;
-import com.prp.tickets.domain.dto.ListEventResponseDto;
+import com.prp.tickets.domain.UpdateEventRequest;
+import com.prp.tickets.domain.dto.*;
 import com.prp.tickets.domain.entities.Event;
 import com.prp.tickets.mappers.EventMapper;
 import com.prp.tickets.services.EventService;
@@ -64,5 +62,17 @@ public class EventController {
   
   private UUID parseUserId(Jwt jwt) {
 	return UUID.fromString(jwt.getSubject());
+  }
+  
+  @PutMapping(path = "/{eventId}")
+  public ResponseEntity<UpdateEventResponseDto> updateEvent(
+	@RequestBody @Valid UpdateEventRequestDto updateEventRequestDto,
+	@AuthenticationPrincipal Jwt jwt,
+	@PathVariable UUID eventId) {
+	UpdateEventRequest updateEventRequest = eventMapper.fromDto(updateEventRequestDto);
+	UUID userId = parseUserId(jwt);
+	Event event = eventService.updateEventForOrganizer(userId, eventId, updateEventRequest);
+	UpdateEventResponseDto updateEventResponseDto = eventMapper.toUpdateEventResponseDto(event);
+	return ResponseEntity.ok(updateEventResponseDto);
   }
 }
