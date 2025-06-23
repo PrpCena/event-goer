@@ -7,6 +7,7 @@ import com.prp.tickets.domain.UpdateTicketTypeRequest;
 import com.prp.tickets.domain.entities.Event;
 import com.prp.tickets.domain.entities.TicketType;
 import com.prp.tickets.domain.entities.User;
+import com.prp.tickets.domain.enums.EventStatusEnum;
 import com.prp.tickets.exception.EventNotFoundException;
 import com.prp.tickets.exception.EventUpdateException;
 import com.prp.tickets.exception.TicketTypeNotFoundException;
@@ -151,7 +152,12 @@ public class EventServiceImpl
   
   @Override
   public Page<Event> listPublicEvents(Pageable pageable) {
-	return null;
+	return eventRepository.findByStatus(EventStatusEnum.PUBLISHED, pageable);
+  }
+  
+  @Override
+  public Page<Event> searchPublicEvents(String query, Pageable pageable) {
+	return eventRepository.searchEvents(query, pageable);
   }
   
 }
