@@ -30,6 +30,8 @@ public class EventServiceImpl
 					   .orElseThrow(
 						 () -> new UserNotFoundException(String.format("User with ID '%s' not found", organizerId)));
 	
+	Event eventToCreate = new Event();
+	
 	List<TicketType> ticketTypesToCreate = event
 											 .getTicketTypes()
 											 .stream()
@@ -39,11 +41,11 @@ public class EventServiceImpl
 											   ticketTypeToCreate.setPrice(ticketType.getPrice());
 											   ticketTypeToCreate.setDescription(ticketType.getDescription());
 											   ticketTypeToCreate.setTotalAvailable(ticketType.getTotalAvailable());
+											   ticketTypeToCreate.setEvent(eventToCreate);
 											   return ticketTypeToCreate;
 											 })
 											 .toList();
 	
-	Event eventToCreate = new Event();
 	eventToCreate.setName(event.getName());
 	eventToCreate.setStart(event.getStart());
 	eventToCreate.setEnd(event.getEnd());
