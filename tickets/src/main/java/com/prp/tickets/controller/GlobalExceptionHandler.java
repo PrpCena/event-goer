@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
   ResponseEntity<ErrorDto> handleException(Exception exception) {
 	log.error("Error details: {}", exception.getMessage());
 	ErrorDto errorDto = new ErrorDto();
-	errorDto.setError("An unknown error occurred");
+	errorDto.setError("An unknown error occurred " + exception.getMessage());
 	return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
   }
   

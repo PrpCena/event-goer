@@ -17,12 +17,11 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http, UserProvisioningFilter userProvisioningFilter) throws
 																										   Exception {
-	http
-	  .authorizeHttpRequests(authorize ->
-							   // All requests must be authenticated
-							   authorize
-								 .anyRequest()
-								 .permitAll()) // change this to authenticated
+	http.authorizeHttpRequests(authorize ->
+								 // All requests must be authenticated
+								 authorize
+								   .anyRequest()
+								   .authenticated()) // change this to authenticated
 	  .csrf(csrf -> csrf.disable())
 	  .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	  .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
